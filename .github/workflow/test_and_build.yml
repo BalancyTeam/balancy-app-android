@@ -8,7 +8,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.1.0
 
       - name: Run Debug Tests
         run: ./gradlew testDebugUnitTest --continue
@@ -26,11 +26,11 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.1.0
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
       - name: Restore Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -41,12 +41,12 @@ jobs:
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 33
           script: ./gradlew connectedAndroidTest
 
       - name: Upload Android Test Reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android-test-reports
           path: '**/build/reports/androidTests/'
@@ -58,9 +58,9 @@ jobs:
    continue-on-error: true
    steps:
      - name: Checkout
-       uses: actions/checkout@v2
+       uses: actions/checkout@v3.1.0
      - name: Restore Cache
-       uses: actions/cache@v2
+       uses: actions/cache@v3
        with:
         path: |
           ~/.gradle/caches
@@ -68,13 +68,15 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
+
      - name: Change wrapper permissions
        run: chmod +x ./gradlew
+
      - name: Assemble Debug
        run: ./gradlew assembleDebug
 
      - name: Upload APK
-       uses: actions/upload-artifact@v2
+       uses: actions/upload-artifact@v3
        with:
         name: apk
         path: app/build/outputs/apk/debug/**.apk
