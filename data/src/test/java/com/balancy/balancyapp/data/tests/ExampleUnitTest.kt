@@ -1,4 +1,4 @@
-package com.balancy.balancy.data.tests
+package com.balancy.balancyapp.data.tests
 
 import org.junit.Test
 
